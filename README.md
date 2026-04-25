@@ -1,6 +1,6 @@
 # Netcat.py
 
-*Fecha de publicación: 30/12/2025*
+*Publication date: 30/12/2025*
 
 > [!NOTE]
 > **Iker Marín López (IML15)**
@@ -14,7 +14,7 @@ This repository shows a python design which substitutes the famous application "
 
 
 > [!WARNING]
-> **ADVERTENCIA:** Este documento ha sido realizado con fines exclusivamente educativos en un entorno controlado. El autor no se hace responsable del mal uso de la información aquí expuesta.
+> This document has been created for educational purposes in a controlled environment. The author is not responsible for any misuse of the information presented herein.
 
 
 - **Sugerencia**: si no se dispone de un Rubber Ducky, también podríais desactivar el Windows defender manualmente siguiendo los pasos del [payload](#payload) (adjuntado más adelante) y probar el comando que ejecuta la Reverse Shell como práctica (así podrías verificar el funcionamiento de la Reverse Shell y estudiar el mismo).
