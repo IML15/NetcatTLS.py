@@ -5,6 +5,7 @@ import subprocess
 import sys
 import textwrap
 import threading
+import ssl
 
 def execute(cmd):
     if not cmd:
@@ -22,6 +23,10 @@ class NetCat:
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
+        # SSL configuration
+        # self.context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
+        self.cert_file = "<your_file_.pem>"
+
     def run(self):
         if self.args.listen:
             self.listen()
@@ -29,14 +34,20 @@ class NetCat:
             self.send()
 
     def send(self):
-        self.socket.connect((self.args.target, self.args.port))
+
+        # We wrap the socket before we connect
+        client_context = ssl._create_unverified_context()
+        secure_socket = client_context.wrap_socket(self.socket, server_hostname=self.args.target)
+
+        secure_socket.connect((self.args.target, self.args.port))
+
         if self.buffer:
-            self.socket.send(self.buffer)
+            secure_socket.send(self.buffer)
 
         try:
             while True:
                 # 1. We receive the reply or the prompt
-                data = self.socket.recv(4096)
+                data = secure_socket.recv(4096)
                 if not data:
                     break
                 # We print what we get (result/prompt)
@@ -46,19 +57,30 @@ class NetCat:
                 if "BHP: #>" in data.decode():
                     buffer = input("")  # The prompt has been sent by the server
                     buffer += "\n"
-                    self.socket.send(buffer.encode())
+                    secure_socket.send(buffer.encode())
         except KeyboardInterrupt:
             print("User terminated.")
-            self.socket.close()
+            secure_socket.close()
             sys.exit()
 
     def listen(self):
         self.socket.bind((self.args.target, self.args.port))
         self.socket.listen(5)
+
+        server_context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
+        server_context.load_cert_chain(certfile=self.cert_file) # We use our .pem file here
+
         while True:
             client_socket, _ = self.socket.accept()
-            client_thread = threading.Thread(target=self.handle, args=(client_socket,))
-            client_thread.start()
+
+            try:
+                # We wrap client's socket recently accepted
+                secure_client_socket = server_context.wrap_socket(client_socket, server_side=True)
+                client_thread = threading.Thread(target=self.handle, args=(secure_client_socket,))
+                client_thread.start()
+            except ssl.SSLError as e:
+                print(f"Fallo en el handshake TLS: {e}")
+                client_socket.close()
 
     def handle(self, client_socket):
         if self.args.execute:
