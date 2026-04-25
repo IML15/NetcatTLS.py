@@ -16,11 +16,89 @@ This repository shows a python design which substitutes the famous application "
 > [!WARNING]
 > This document has been created for educational purposes in a controlled environment. The author is not responsible for any misuse of the information presented herein.
 
+---
 
-- **Sugerencia**: si no se dispone de un Rubber Ducky, también podríais desactivar el Windows defender manualmente siguiendo los pasos del [payload](#payload) (adjuntado más adelante) y probar el comando que ejecuta la Reverse Shell como práctica (así podrías verificar el funcionamiento de la Reverse Shell y estudiar el mismo).
+## 🔗 ️Encrypted Netcat (BHP Tool with TLS)
 
-## 1. Preparación de las máquinas (Atacante y Víctima)
+A security-enhanced version of the classic Netcat tool implemented in Python. This version upgrades the standard communication by wrapping sockets with a TLS (Transport Layer Security) layer, preventing credential sniffing and data interception in transit.
 
-Crearemos dos máquinas en **VMware** (en nuestro caso una Kali-Linux [atacante] y una máquina Windows11 “25H2” [víctima]) y las configuraremos de modo que las máquinas compartan la misma red en uno de sus adaptadores red (este segundo adaptador lo crearemos antes de iniciar las máquinas). En mi caso, he creado una red llamada “Red InternaIML15” que será la que usen ambas máquinas y que además será de uso privado para el host (nosotros). 
+
+## Features
+
+- Encrypted Shell: Interactive command-line access over a secure tunnel.
+
+- Secure File Transfer: Upload and download files with end-to-end encryption.
+
+- TLSv1.3 Support: Utilizes modern cryptographic standards (AES-256-GCM).
+
+- Self-Signed Certificate Support: Custom certificate handling for private environments.
+
+---
+
+## 👾 Setup & Installation
+
+### 1. Generate TLS Certificates
+
+The server requires a certificate and a private key to establish the secure tunnel. Use OpenSSL to create a self-signed .pem file:
+
+```bash
+openssl req -new -x509 -keyout server.pem -out server.pem -days 365 -nodes
+```
+
+### 2. Project Structure
+
+Ensure your directory look like this (or change the file's destination path):
+
+- `netcat_file.py`
+- `server.pem`
+
+---
+## 💻 Usage
+
+### Server Mode (Listener)
+
+To start a secure listener on all interfaces (using 0.0.0.0 to avoid binding errors) with an interactive shell:
+
+```bash
+python netcatTLS.py -t 0.0.0.0 -p <PORT> -l -c
+```
+
+### Client Mode
+
+To connect to the listener from the local machine (obviously the port has to be the same as the listener):
+
+```bash
+python netcatTLS.py -t <TARGET_IP> -p <PORT> -l -c
+```
+---
+
+## 🔐 Security Verification
+
+The encryption has been verified using **Wireshark**. While capturing traffic on the loopback interface, the following was observed:
+
+- **Protocol Identification**: Traffic is correctly identified as `TLSv1.2` or `TLSv1.3` instead of plain `TCP.
+
+
+- **Handshake**: A successful key exchange occurs using the provided `your_file.pem`.
+
+
+- **Encrypted Payload**: All commands (e.g., `whoami`, `ls`) are visible only as `Encrypted Application Data, making them unreadable to unauthorized observers.
+
+
+--- 
+
+## 🛠 Technical Stack
+
+
+- **Python 3.x**: Core logic.
+
+
+- `ssl` Module: For the TLS context and socket wrapping.
+
+
+- `socket` & `threading: For concurrent network communications.
+
+
+- **OpenSSL**: For certificate management.
 
 

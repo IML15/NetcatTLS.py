@@ -25,7 +25,7 @@ class NetCat:
 
         # SSL configuration
         # self.context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
-        self.cert_file = "<your_file_.pem>"
+        self.cert_file = "<your_file_.pem>" # Here you can change the file's destination path
 
     def run(self):
         if self.args.listen:
