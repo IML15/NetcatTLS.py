@@ -1,6 +1,6 @@
 # Netcat.py
 
-*Publication date: 30/12/2025*
+*Publication date: 26/4/2026*
 
 > [!NOTE]
 > **Iker Marín López (IML15)**
