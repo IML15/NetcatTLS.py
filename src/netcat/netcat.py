@@ -35,14 +35,13 @@ class NetCat:
 
         try:
             while True:
-                # 1. We receive the reply or the prompt
+                # We receive the reply or the prompt
                 data = self.socket.recv(4096)
                 if not data:
                     break
                 # We print what we get (result/prompt)
-                # Uses end='' cause the prompt usually brings with it his owns spaces/jumps
                 print(data.decode(), end='')
-                # 2. If what we receive ends in our prompt, we request an input
+                # If what we receive ends in our prompt, we request an input
                 if "BHP: #>" in data.decode():
                     buffer = input("")  # The prompt has been sent by the server
                     buffer += "\n"

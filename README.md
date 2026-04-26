@@ -10,20 +10,30 @@
 > **Links:** 🔗 [LinkedIn](https://www.linkedin.com/in/iker-marin-lopez-90791b379/) | 🐱 [GitHub](https://github.com/IML15) | 📥 [Telegram](https://t.me/hueco44)
 
 
-This repository shows a python design which substitutes the famous application "Netcat". This practice is really interesting for users who want to introduce their shelf's into the hacking environment.
+This repository shows a python design which substitutes the famous application 
+"Netcat". This practice is really interesting for users who want to
+introduce their shelf's into the hacking environment.
 
 
 > [!WARNING]
-> This document has been created for educational purposes in a controlled environment. The author is not responsible for any misuse of the information presented herein.
+> This document has been created for educational purposes in a controlled 
+environment. The author is not responsible for any misuse of the information presented herein.
 
 ---
 
 ## 🔗 ️Encrypted Netcat (BHP Tool with TLS)
 
-A security-enhanced version of the classic Netcat tool implemented in Python. This version upgrades the standard communication by wrapping sockets with a TLS (Transport Layer Security) layer, preventing credential sniffing and data interception in transit.
+A security-enhanced version of the classic Netcat tool implemented in 
+Python. This version upgrades the standard communication by wrapping sockets with a TLS 
+(Transport Layer Security) layer, preventing credential sniffing and data interception
+in transit.
 
+- **Note**: For educational purposes, I have included both `netcat.py` (standard TCP) 
+and `netcatTLS.py` (encrypted) in this repository. This allows users to compare 
+the two versions using a network analyzer like **Wireshark** and observe the 
+transition from plaintext to encrypted traffic.
 
-## Features
+## Features (netcatTLS.py)
 
 - Encrypted Shell: Interactive command-line access over a secure tunnel.
 
@@ -39,7 +49,8 @@ A security-enhanced version of the classic Netcat tool implemented in Python. Th
 
 ### 1. Generate TLS Certificates
 
-The server requires a certificate and a private key to establish the secure tunnel. Use OpenSSL to create a self-signed .pem file:
+The server requires a certificate and a private key to establish the secure 
+tunnel. Use OpenSSL to create a self-signed .pem file:
 
 ```bash
 openssl req -new -x509 -keyout server.pem -out server.pem -days 365 -nodes
@@ -57,7 +68,8 @@ Ensure your directory look like this (or change the file's destination path):
 
 ### Server Mode (Listener)
 
-To start a secure listener on all interfaces (using 0.0.0.0 to avoid binding errors) with an interactive shell:
+To start a secure listener on all interfaces (using 0.0.0.0 to avoid binding 
+errors) with an interactive shell:
 
 ```bash
 python netcatTLS.py -t 0.0.0.0 -p <PORT> -l -c
@@ -65,24 +77,33 @@ python netcatTLS.py -t 0.0.0.0 -p <PORT> -l -c
 
 ### Client Mode
 
-To connect to the listener from the local machine (obviously the port has to be the same as the listener):
+To connect to the listener from the local machine (obviously the port has to 
+be the same as the listener):
 
 ```bash
-python netcatTLS.py -t <TARGET_IP> -p <PORT> -l -c
+python netcatTLS.py -t <TARGET_IP> -p <PORT>
 ```
+After you initialize the client, you have to press `Ctrl + D`(to initialize 
+the shell), and then you will be able to interact with the server (listener)
+
 ---
 
 ## 🔐 Security Verification
 
-The encryption has been verified using **Wireshark**. While capturing traffic on the loopback interface, the following was observed:
+The encryption has been verified using **Wireshark**. While capturing traffic on the 
+loopback interface, the following was observed:
 
-- **Protocol Identification**: Traffic is correctly identified as `TLSv1.2` or `TLSv1.3` instead of plain `TCP.
+- **Protocol Identification**: Traffic is correctly identified as `TLSv1.2` or 
+`TLSv1.3` instead of plain `TCP.
 
 
-- **Handshake**: A successful key exchange occurs using the provided `your_file.pem`.
+- **Handshake**: A successful key exchange occurs using the provided 
+`your_file.pem`.
 
 
-- **Encrypted Payload**: All commands (e.g., `whoami`, `ls`) are visible only as `Encrypted Application Data, making them unreadable to unauthorized observers.
+- **Encrypted Payload**: All commands (e.g., `whoami`, `ls`) 
+are visible only as `Encrypted Application Data, making them unreadable to 
+unauthorized observers.
 
 
 --- 
