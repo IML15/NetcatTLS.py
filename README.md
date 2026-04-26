@@ -66,7 +66,7 @@ Ensure your directory look like this (or change the file's destination path):
 ---
 ## 💻 Usage
 
-### Server Mode (Listener)
+### 1st Server Mode (Listener)
 
 To start a secure listener on all interfaces (using 0.0.0.0 to avoid binding 
 errors) with an interactive shell:
@@ -75,16 +75,16 @@ errors) with an interactive shell:
 python netcatTLS.py -t 0.0.0.0 -p <PORT> -l -c
 ```
 
-### Client Mode
+### 2nd Client Mode
 
 To connect to the listener from the local machine (obviously the port has to 
 be the same as the listener):
 
 ```bash
-python netcatTLS.py -t <TARGET_IP> -p <PORT>
+python netcatTLS.py -t 0.0.0.0 -p <PORT>
 ```
 After you initialize the client, you have to press `Ctrl + D`(to initialize 
-the shell), and then you will be able to interact with the server (listener)
+the shell), and then you will be able to interact with the server (**listener**)
 
 ---
 
@@ -104,6 +104,23 @@ loopback interface, the following was observed:
 - **Encrypted Payload**: All commands (e.g., `whoami`, `ls`) 
 are visible only as `Encrypted Application Data, making them unreadable to 
 unauthorized observers.
+
+
+### Verification (Wireshark Analysis)
+
+To verify the effectiveness of the TLS implementation, a network traffic
+analysis was conducted using Wireshark on the `loopback interface` (because we use 0.0.0.0 target ip).
+
+![imagen.png](images/1.png)
+
+
+#### 1. Encrypted Application Data
+
+Once the secure tunnel is established, all subsequent traffic is encapsulated. As shown below,
+executing a command like `whoami` or `ls` does not reveal any plaintext. The payload is
+obscured within **Encrypted Application Data** packets.
+
+![imagen.png](images/2.png)
 
 
 --- 
