@@ -159,7 +159,7 @@ the TCP stream reveals the full interaction. In the TLS version, only high-entro
 - `ssl` Module: For the TLS context and socket wrapping.
 
 
-- `socket` & `threading: For concurrent network communications.
+- `socket` & `threading`: For concurrent network communications.
 
 
 - **OpenSSL**: For certificate management.
