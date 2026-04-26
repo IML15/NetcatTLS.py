@@ -94,7 +94,7 @@ The encryption has been verified using **Wireshark**. While capturing traffic on
 loopback interface, the following was observed:
 
 - **Protocol Identification**: Traffic is correctly identified as `TLSv1.2` or 
-`TLSv1.3` instead of plain `TCP.
+`TLSv1.3` instead of plain TCP.
 
 
 - **Handshake**: A successful key exchange occurs using the provided 
