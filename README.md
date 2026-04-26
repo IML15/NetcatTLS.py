@@ -105,14 +105,17 @@ loopback interface, the following was observed:
 are visible only as `Encrypted Application Data, making them unreadable to 
 unauthorized observers.
 
+<br>
 
 ### Verification (Wireshark Analysis)
 
 To verify the effectiveness of the TLS implementation, a network traffic
-analysis was conducted using Wireshark on the `loopback interface` (because we use 0.0.0.0 target ip).
+analysis was conducted using Wireshark on the `loopback interface` (because we use
+0.0.0.0 as target ip).
 
-![imagen.png](images/1.png)
+![loopback.png](images/1.png)
 
+<br>
 
 #### 1. Encrypted Application Data
 
@@ -120,8 +123,30 @@ Once the secure tunnel is established, all subsequent traffic is encapsulated. A
 executing a command like `whoami` or `ls` does not reveal any plaintext. The payload is
 obscured within **Encrypted Application Data** packets.
 
-![imagen.png](images/2.png)
+![TCP_STREAM.png](images/2.png)
 
+![TLS.png](images/4.png)
+
+
+- **Protocol**: TLSv1.2 / TLSv1.3.
+
+- **Visibility**: Zero. No commands or shell outputs are readable by an intermediary.
+
+<br>
+
+#### 3. Comparison: Plaintext vs. TLS
+
+The difference is clear when comparing both versions of the tool. In the standard version,
+the TCP stream reveals the full interaction. In the TLS version, only high-entropy
+(random-looking) binary data is visible.
+
+- `netcat.py`:
+
+![NO_TLS.png](images/3.png)
+
+- `netcatTLS.py`:
+
+![TLS.png](images/4.png)
 
 --- 
 
