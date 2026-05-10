@@ -102,7 +102,7 @@ loopback interface, the following was observed:
 
 
 - **Encrypted Payload**: All commands (e.g., `whoami`, `ls`) 
-are visible only as `Encrypted Application Data, making them unreadable to 
+are visible only as `Encrypted Application Data`, making them unreadable to 
 unauthorized observers.
 
 <br>
