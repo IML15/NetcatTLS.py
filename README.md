@@ -47,7 +47,15 @@ transition from plaintext to encrypted traffic.
 
 ## 👾 Setup & Installation
 
-### 1. Generate TLS Certificates
+### 1. Install Dependencies
+
+Install the project's requirements (from the repository root):
+
+```bash
+pip install -r requirements.txt
+```
+
+### 2. Generate TLS Certificates
 
 The server requires a certificate and a private key to establish the secure 
 tunnel. Use OpenSSL to create a self-signed .pem file:
@@ -56,7 +64,7 @@ tunnel. Use OpenSSL to create a self-signed .pem file:
 openssl req -new -x509 -keyout server.pem -out server.pem -days 365 -nodes
 ```
 
-### 2. Project Structure
+### 3. Project Structure
 
 Ensure your directory look like this (or change the file's destination path):
 

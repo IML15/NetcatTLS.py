@@ -104,6 +104,8 @@ class NetCat:
             client_socket.close()  # We just CLOSE this client's socket
 
 if __name__ == "__main__":
+    # IML15 signature, shown every time the tool starts
+    mostrar_firma()
 
     parser = argparse.ArgumentParser(description="BHP Net Tool",
                                      formatter_class=argparse.RawDescriptionHelpFormatter,
@@ -121,7 +123,6 @@ if __name__ == "__main__":
     parser.add_argument("-t", "--target", default="0.0.0.0", help="specified IP")
     parser.add_argument("-u", "--upload", help="upload file")
     args = parser.parse_args()
-    mostrar_firma()
     if args.listen:
         buffer = ""
     else:
