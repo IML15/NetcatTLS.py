@@ -6,6 +6,7 @@ import sys
 import textwrap
 import threading
 import ssl
+from firma_iml15 import mostrar_firma
 
 def execute(cmd):
     if not cmd:
@@ -142,6 +143,7 @@ if __name__ == "__main__":
     parser.add_argument("-t", "--target", default="0.0.0.0", help="specified IP")
     parser.add_argument("-u", "--upload", help="upload file")
     args = parser.parse_args()
+    mostrar_firma()
     if args.listen:
         buffer = ""
     else:
