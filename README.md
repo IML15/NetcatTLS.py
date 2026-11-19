@@ -74,13 +74,15 @@ Ensure your directory look like this (or change the file's destination path):
 ---
 ## 💻 Usage
 
+The scripts live in `src/netcat/`. The commands below are run from the repository root.
+
 ### 1st Server Mode (Listener)
 
 To start a secure listener on all interfaces (using 0.0.0.0 to avoid binding 
 errors) with an interactive shell:
 
 ```bash
-python netcatTLS.py -t 0.0.0.0 -p <PORT> -l -c
+python src/netcat/netcatTLS.py -t 0.0.0.0 -p <PORT> -l -c
 ```
 
 ### 2nd Client Mode
@@ -89,10 +91,12 @@ To connect to the listener from the local machine (obviously the port has to
 be the same as the listener):
 
 ```bash
-python netcatTLS.py -t 0.0.0.0 -p <PORT>
+python src/netcat/netcatTLS.py -t 0.0.0.0 -p <PORT>
 ```
 After you initialize the client, you have to press `Ctrl + D`(to initialize 
 the shell), and then you will be able to interact with the server (**listener**)
+
+For the unencrypted version, use `python src/netcat/netcat.py` with the same arguments.
 
 ---
 
